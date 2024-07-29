@@ -1,1 +1,1 @@
-# tic_tac_toe
+built a tic-tac-toe game using html, css and js. Focus on organizing utilizing concepts of closures, factories and Immediately invoked function expressions
