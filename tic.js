@@ -1,21 +1,22 @@
 //handles game assets 
 const TicTacToe = (function () {
-    const gameboard = [[0,1,2], [0,1,2], [0,1,2]]; 
-    const player1 = {
-        name: 'player 1',
-        marker: "X",
+    const gameBoard = [[0,1,2], [0,1,2], [0,1,2]]; 
+    
+    function createPlayer (initialName, intialMarker) {
+        let name = initialName; 
+        let marker = intialMarker 
+        const getName = () => name;
+        const getMarker = () => marker; 
+        const setName = (newName) => name = newName;
+        const setMarker = (newMarker) => marker = newMarker
 
-    }; 
+        return{getName, getMarker,setName, setMarker}
+    
+    }
+    
+    return {gameBoard, createPlayer}
 
-    const player2 = { 
-        name: 'player 2',
-        marker: "O", 
-    };
- 
-    return {gameboard}
-
-})();
-
+})();  
 
 //IIFE handles gameflow 
 const gameController = (function () {
@@ -23,7 +24,7 @@ const gameController = (function () {
     function playRound () {
         if (round % 2 == 1) { 
             console.log('Player 1 turn');
-            console.log(TicTacToe.gameboard)
+            console.log(TicTacToe.gameBoard)
             
             insertMarker ('X'); 
             addRound();
@@ -31,7 +32,7 @@ const gameController = (function () {
 
         } else {
             console.log ('Player 2 turn');
-            console.log( TicTacToe.gameboard)
+            console.log( TicTacToe.gameBoard)
     
             insertMarker ('O'); 
             addRound();
@@ -47,8 +48,8 @@ const gameController = (function () {
     function insertMarker (marker) {
         let subArray = prompt('provide subarray index')
         let index = prompt('provide index number')
-        TicTacToe.gameboard[subArray].splice(index,1, marker );
-        console.log(TicTacToe.gameboard);
+        TicTacToe.gameBoard[subArray].splice(index,1, marker );
+        console.log(TicTacToe.gameBoard);
     }
 
     return {playRound, getRound}
