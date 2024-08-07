@@ -49,7 +49,7 @@ const gameController = (function () {
             let array = prompt('choose an array'); 
             let index = prompt('choose an index');
             let marker = player1.marker 
-            insertMarker(array,index, marker);
+            indexArrayCheck (array, index, marker);
             round +=1
             
         }else { 
@@ -59,7 +59,7 @@ const gameController = (function () {
             let array = prompt('choose an array'); 
             let index = prompt('choose an index');
             let marker = player2.marker 
-            insertMarker(array,index,marker);
+            indexArrayCheck (array, index, marker);
             round +=1
 
         }
@@ -76,9 +76,18 @@ const gameController = (function () {
          
     }
 
+    function indexArrayCheck (array, index, marker) { 
+        if (array>=0 && array<=2 && index>=0 && array<=2) { 
+            insertMarker(array,index, marker); 
+        }else { 
+            console.log("Pick a number between 0 and 2")
+            gameRound(); 
+        }
+    }
 
 
-    return { player1, player2, gameRound, insertMarker }
+
+    return { player1, player2, gameRound, insertMarker  }
 
 
 })()
