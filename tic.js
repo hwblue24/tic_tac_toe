@@ -10,17 +10,20 @@ const TicTacToe = (function () {
 
         let name = initialName; 
         let marker = initialMarker 
-
+        let rowArray = [];
+        let columnIndex = [];
     
         playerList.push({name, marker});
         
         const getName = () => name;
         const getMarker = () => marker; 
-        const setName = (newName) => name = newName;
-        const setMarker = (newMarker) => marker = newMarker
+        const getRowArray = () => rowArray;
+        const getColumnIndex = () => columnIndex;
+        // const setName = (newName) => name = newName;
+        // const setMarker = (newMarker) => marker = newMarker
         
 
-        return { getName, getMarker, setName, setMarker };
+        return { getName, getMarker, getRowArray, getColumnIndex };
         
     
     }
@@ -30,69 +33,81 @@ const TicTacToe = (function () {
 })();  
 
 //need this line otherwise player1 and player2 are empty.
-let haroon = TicTacToe.createPlayer('haroon','H');
-let dureti = TicTacToe.createPlayer('dureti','D')
+let player1= TicTacToe.createPlayer('haroon','H');
+let player2 = TicTacToe.createPlayer('dureti','D')
 
 //IIFE handles gameflow 
 const gameController = (function () {
 
-
-    let player1 = TicTacToe.getPlayerList()[0];
-    let player2 = TicTacToe.getPlayerList()[1];
     let round = 1; 
+
+    
 
     function gameRound () { 
         if(round%2 ==1 ) { 
-            console.log(`${player1.name}'s turn`)
-            console.log(TicTacToe.gameBoard);
-            console.log( `Pick an array and its index to mark`)
-            let array = prompt('choose an array'); 
-            let index = prompt('choose an index');
-            let marker = player1.marker 
-            indexArrayCheck (array, index, marker);
-            round +=1
+            console.log(`${player1.getName()}'s turn`)
+            
+            let marker = player1.getMarker();
+            playerInputs (marker);
             
         }else { 
-            console.log( `${player2.name}'s turn`)
-            console.log(TicTacToe.gameBoard);
-            console.log( `Pick an array and its index to mark)`)
-            let array = prompt('choose an array'); 
-            let index = prompt('choose an index');
-            let marker = player2.marker 
-            indexArrayCheck (array, index, marker);
-            round +=1
+            console.log( `${player2.getName()}'s turn`)
+            let marker = player2.getMarker(); 
+            playerInputs (marker);
+        
 
         }
     }
 
-    function insertMarker (array,index,marker) {
-        if(TicTacToe.gameBoard[array][index] === player1.marker || TicTacToe.gameBoard[array][index] === player2.marker) { 
-            console.log( `Spot occupied`)
-            gameRound();
-        }else { 
-            TicTacToe.gameBoard[array].splice(index,1, marker );
-        }
-
-         
+    function playerInputs (marker) { 
+        console.log( `Pick an array and its index to mark`)
+        let array = prompt('choose an array'); 
+        let index = prompt('choose an index');
+        gameBoardLimiter (array, index, marker)
+        
     }
 
-    function indexArrayCheck (array, index, marker) { 
+    function gameBoardLimiter (array, index, marker) { 
         if (array>=0 && array<=2 && index>=0 && array<=2) { 
             insertMarker(array,index, marker); 
         }else { 
             console.log("Pick a number between 0 and 2")
-            gameRound(); 
+            gameRound();
         }
     }
 
+
+    function insertMarker (array,index,marker) {
+        if(TicTacToe.gameBoard[array][index] === player1.getMarker() || TicTacToe.gameBoard[array][index] === player2.getMarker()) { 
+            console.log( `Spot occupied`)
+            gameRound();
+        }else { 
+            TicTacToe.gameBoard[array].splice(index,1, marker );
+            //rowIndexTracker(array, index, marker)
+            console.log(TicTacToe.gameBoard);
+            round +=1; 
+            console.log(round);
+
+        }
+
+    }
+
+    /*function rowIndexTracker (array, index, marker) {
+        if( marker === player1.getMarker()) { 
+            player1.getRowArray().push(array);
+            player1.getColumnIndex().push(index);
+
+        } else { 
+            player2.getRowArray().push(array);
+            player2.getColumnIndex().push(index);
+
+        }
+
+
+    }*/
 
 
     return { player1, player2, gameRound, insertMarker  }
 
 
 })()
-
-
-//handles changing nested array values 
-
-//TicTacToe.gameBoard[subArray].splice(index,1, marker );
