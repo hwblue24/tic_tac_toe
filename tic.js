@@ -1,6 +1,6 @@
 //handles game assets 
 const TicTacToe = (function () {
-    const gameBoard = [[0,1,2], [0,1,2], [0,1,2]]; 
+    const gameBoard = [["","",""], ["","",""], ["","",""]]; 
     const playerList = []; 
 
     const getPlayerList = () => playerList; 
@@ -10,47 +10,18 @@ const TicTacToe = (function () {
 
         let name = initialName; 
         let marker = initialMarker 
-        let a0 = 0; 
-        let a1 = 0; 
-        let a2 = 0;
-        let i0 = 0; 
-        let i1 = 0; 
-        let i2 = 0;
+      
     
         playerList.push({name, marker});
         
         const getName = () => name;
         const getMarker = () => marker; 
-        const getA0 = () => a0;
-        const getA1 = () => a1;
-        const getA2 = () => a2; 
-        const getI0 = () => i0; 
-        const getI1 = () => i1; 
-        const getI2 = () => i2;
-        const incrementA0 = () => a0+=1 ;
-        const incrementA1 = () => a1+=1; 
-        const incrementA2 = () => a2+=1; 
-        const incrementI0 = () => i0+=1 ;
-        const incrementI1 = () => i1+=1; 
-        const incrementI2 = () => i2+=1; 
+        
         // const setName = (newName) => name = newName;
         // const setMarker = (newMarker) => marker = newMarker
         
 
-        return { getName, 
-            getMarker, 
-            getA0, 
-            getA1, 
-            getA2, 
-            getI0, 
-            getI1, 
-            getI2, 
-            incrementA0, 
-            incrementA1,
-            incrementA2,
-            incrementI0, 
-            incrementI1, 
-            incrementI2 };
+        return { getName, getMarker, };
         
     
     }
@@ -67,6 +38,7 @@ let player2 = TicTacToe.createPlayer('dureti','D')
 const gameController = (function () {
 
     let round = 1; 
+    
 
     function gameRound () { 
         if(round%2 ==1 ) { 
@@ -93,7 +65,7 @@ const gameController = (function () {
     }
 
     function gameBoardLimiter (array, index, marker) { 
-        if (array>=0 && array<=2 && index>=0 && array<=2) { 
+        if (array>=0 && array<=2 && index>=0 && index<=2) { 
             insertMarker(array,index, marker); 
         }else { 
             console.log("Pick a number between 0 and 2")
@@ -108,91 +80,71 @@ const gameController = (function () {
             gameRound();
         }else { 
             TicTacToe.gameBoard[array].splice(index,1, marker );
-            incrementArray(array, marker);
-            incrementIndex(index, marker);
-            winCondition(marker);
+            winConditionAcross(array, marker);
+
             console.log(TicTacToe.gameBoard);
             round +=1; 
             console.log(round);
+            tieCondition(round);
            
 
         }
 
     }
 
-    function incrementArray(array, marker) { 
-        if (marker === player1.getMarker()) {
-            if (array == 0) {
-                player1.incrementA0();
-            } else if ( array == 1 ) {
-                player1.incrementA1(); 
-            } else if (array == 2 ) { 
-                player1.incrementA2();
-            }
+   
 
-        } else if (marker === player2.getMarker()) {
-            if (array == 0){
-                player2.incrementA0();
-            } else if ( array == 1 ) {
-                player2.incrementA1(); 
-            } else if (array == 2 ) { 
-                player2.incrementA2();
-            }
+    function winConditionAcross (array, marker) { 
+        //every method checks if it is true that the entire row only has the player marker in it
+        let rowMarkerCheck = TicTacToe.gameBoard[array].every((position)=> position === marker); 
+        if (rowMarkerCheck) { 
+            
+            console.log("You win with three across")
+        } else {
+            winConditionColumn(marker);
         }
     }
 
-    function incrementIndex(index, marker) { 
-        if (marker === player1.getMarker()) {
-            if (index == 0) {
-                player1.incrementI0();
-            } else if ( index == 1 ) {
-                player1.incrementI1(); 
-            } else if (index == 2 ) { 
-                player1.incrementI2();
-            }
-
-        } else if (marker === player2.getMarker()) {
-            if (index == 0){
-                player2.incrementI0();
-            } else if ( index == 1 ) {
-                player2.incrementI1(); 
-            } else if (index == 2 ) { 
-                player2.incrementI2();
-            }
+    function winConditionColumn (marker) {
+        let flatArray = TicTacToe.gameBoard.flat();
+        let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
+        let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
+        let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
+        if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
+            
+            console.log("You win with 3 vertical")
+        } else { 
+            winConditionDiagonal(marker);
         }
+
     }
 
-    function winCondition (marker) { 
-        if( round >=5 && marker === player1.getMarker()) {
-            //array is the rows. If a row is 3 you win..
-            if (player1.getA0() === 3 || player1.getA1() === 3 || player1.getA2 ()=== 3 ) { 
-                console.log(`${player1.getName()} is the winner` );
-            } else if (player1.getI0() === 3 || player1.getI1() === 3 || player1.getI2() === 3 ) {
-                console.log(`${player1.getName()} is the winner` );
-            } else if (player1.getA0()+player1.getA1()+player1.getA2()+player1.getI0()+player1.getI1()+player1.getI2()>=6); {
-                console.log(`${player1.getName()} is the winner` );
-
-            }
-                
-
-        } else if (round >=5 && marker === player2.getMarker()) {
-            if (player2.getA0() === 3 || player2.getA1() === 3 || player2.getA2() === 3 ) { 
-                console.log(`${player2.getName()} is the winner` );
-            } else if (player2.getI0() === 3 || player2.getI1 ()=== 3 || player2.getI2() === 3 ) {
-                console.log(`${player2.getName()} is the winner` );
-            } else if (player2.getA0()+player2.getA1()+player2.getA2()+player2.getI0()+player2.getI1()+player2.getI2()>=6); {
-                console.log(`${player2.getName()} is the winner` );
-            }
-                
-
+    function winConditionDiagonal (marker) { 
+        let flatArray = TicTacToe.gameBoard.flat();
+        let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
+        let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
+        if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
+            
+            console.log('You win with 3 diagonal')
         } 
+
     }
 
+    function tieCondition (round) {
+        if(round === 10) { 
+            console.log ("Tie game")
+
+        }
+
+
+    }
+
+ 
 
 
 
 
-    return { player1, player2, gameRound }
+    return { gameRound }
 
 
 })()
