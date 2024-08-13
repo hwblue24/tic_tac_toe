@@ -4,10 +4,15 @@ const TicTacToe = (function () {
     const playerList = []; 
 
     const getPlayerList = () => playerList; 
+    const getBoard = () => gameBoard; 
     
     
+    const addPlayer = (name, marker) => {
+        playerList.push({name, marker});
+    };
     
-    return {gameBoard, getPlayerList, playerList}
+    
+    return {getBoard, getPlayerList, addPlayer}
 
 })();  
 
@@ -18,9 +23,9 @@ function createPlayer (initialName, initialMarker) {
 
     let name = initialName; 
     let marker = initialMarker 
-  
 
-    TicTacToe.playerList.push({name, marker});
+    TicTacToe.addPlayer(name, marker);
+  
     
     const getName = () => name;
     const getMarker = () => marker; 
@@ -76,14 +81,14 @@ const gameController = (function () {
 
 
     function insertMarker (array,index,marker) {
-        if(TicTacToe.gameBoard[array][index] === player1.getMarker() || TicTacToe.gameBoard[array][index] === player2.getMarker()) { 
+        if(TicTacToe.getBoard()[array][index] === player1.getMarker() || TicTacToe.getBoard()[array][index] === player2.getMarker()) { 
             console.log( `Spot occupied`)
             gameRound();
         }else { 
-            TicTacToe.gameBoard[array].splice(index,1, marker );
+            TicTacToe.getBoard()[array].splice(index,1, marker );
             winConditionAcross(array, marker);
 
-            console.log(TicTacToe.gameBoard);
+            console.log(TicTacToe.getBoard());
             round +=1; 
             console.log(round);
             tieCondition(round);
@@ -96,7 +101,7 @@ const gameController = (function () {
    
 
     function winConditionAcross (array, marker) { 
-        let rowMarkerCheck = TicTacToe.gameBoard[array].every((position)=> position === marker); 
+        let rowMarkerCheck = TicTacToe.getBoard()[array].every((position)=> position === marker); 
         if (rowMarkerCheck) { 
             
             console.log("You win with three across")
@@ -106,7 +111,7 @@ const gameController = (function () {
     }
 
     function winConditionColumn (marker) {
-        let flatArray = TicTacToe.gameBoard.flat();
+        let flatArray = TicTacToe.getBoard().flat();
         let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
         let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
         let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
@@ -120,7 +125,7 @@ const gameController = (function () {
     }
 
     function winConditionDiagonal (marker) { 
-        let flatArray = TicTacToe.gameBoard.flat();
+        let flatArray = TicTacToe.getBoard().flat();
         let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
         let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
         if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
