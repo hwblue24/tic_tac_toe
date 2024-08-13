@@ -5,38 +5,39 @@ const TicTacToe = (function () {
 
     const getPlayerList = () => playerList; 
     
-    function createPlayer (initialName, initialMarker) {
-        
-
-        let name = initialName; 
-        let marker = initialMarker 
-      
     
-        playerList.push({name, marker});
-        
-        const getName = () => name;
-        const getMarker = () => marker; 
-        
-        // const setName = (newName) => name = newName;
-        // const setMarker = (newMarker) => marker = newMarker
-        
-
-        return { getName, getMarker, };
-        
     
-    }
-    
-    return {gameBoard, createPlayer, getPlayerList}
+    return {gameBoard, getPlayerList, playerList}
 
 })();  
 
-//need this line otherwise player1 and player2 are empty.
-let player1= TicTacToe.createPlayer('haroon','H');
-let player2 = TicTacToe.createPlayer('dureti','D')
+
+
+function createPlayer (initialName, initialMarker) {
+        
+
+    let name = initialName; 
+    let marker = initialMarker 
+  
+
+    TicTacToe.playerList.push({name, marker});
+    
+    const getName = () => name;
+    const getMarker = () => marker; 
+    
+
+    return { getName, getMarker, };
+    
+
+}
+
+
 
 //IIFE handles gameflow 
 const gameController = (function () {
 
+    let player1= createPlayer('haroon','H');
+    let player2 = createPlayer('dureti','D')
     let round = 1; 
     
 
@@ -95,7 +96,6 @@ const gameController = (function () {
    
 
     function winConditionAcross (array, marker) { 
-        //every method checks if it is true that the entire row only has the player marker in it
         let rowMarkerCheck = TicTacToe.gameBoard[array].every((position)=> position === marker); 
         if (rowMarkerCheck) { 
             
@@ -140,10 +140,6 @@ const gameController = (function () {
     }
 
  
-
-
-
-
     return { gameRound }
 
 
