@@ -38,6 +38,32 @@ function createPlayer (initialName, initialMarker) {
 
 
 
+
+//IIFE handle DOM logic 
+const domLogic = (function () { 
+    const board = TicTacToe.getBoard();
+    const container = document.querySelector(".board");
+    
+    function rendBoard () {
+        board.forEach((row) => {
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add('rows')
+            container.appendChild(rowDiv);
+
+            row.forEach(() => {
+                const cellDiv = document.createElement("div");
+                cellDiv.classList.add('cells')
+                rowDiv.appendChild(cellDiv);
+            });
+        });
+    }
+
+    return {rendBoard}
+
+
+})();
+
+
 //IIFE handles gameflow 
 const gameController = (function () {
 
@@ -149,5 +175,4 @@ const gameController = (function () {
 
 
 })()
-
 
