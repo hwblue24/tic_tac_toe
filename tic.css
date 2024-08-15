@@ -1,0 +1,87 @@
+html,
+body { 
+    height:100vh;
+    width:100vw;
+    margin:0;
+    padding:0;
+    
+}
+
+.container {
+    height:100%;
+    width:100%;
+    display:grid; 
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+        'ui board message'
+    ;
+        
+        
+}
+
+
+.board { 
+    aspect-ratio: 1/1;
+    width: 100%;
+    grid-area: board;
+    display:flex; 
+    flex-direction: column;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+        "row1 row1 row1"
+        "row2 row2 row2"
+        "row3 row3 row3"
+
+    ;
+
+}
+
+.container .rows:nth-child(1) { 
+    grid-area:row1;
+    display:flex; 
+    justify-content: space-evenly;
+    
+}
+.container .rows:nth-child(2) { 
+    grid-area:row2;
+    display:flex;
+    justify-content: space-evenly;
+}
+.container .rows:nth-child(3) { 
+    grid-area:row3;
+    display:flex;
+    justify-content: space-evenly;
+    
+}
+
+
+
+.cells { 
+    flex:1;
+}
+
+
+.container .rows:nth-child(1) .cells:nth-child(2) {
+    border-right: solid blue;  
+    border-left: solid blue;
+}
+
+
+.container .rows:nth-child(2) .cells:nth-child(2) {
+    border: solid blue;
+}
+.container .rows:nth-child(2) .cells:nth-child(1) {
+    border-top: solid blue;
+    border-bottom:solid blue;
+}
+.container .rows:nth-child(2) .cells:nth-child(3) {
+    border-top: solid blue;
+    border-bottom:solid blue;
+}
+
+.container .rows:nth-child(3) .cells:nth-child(2) {
+    border-left:solid blue;
+    border-right: solid blue;
+}
