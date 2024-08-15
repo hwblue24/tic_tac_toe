@@ -3,11 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="index.html"></script>
+    <script async src ="tic.js"></script>
     <link rel="stylesheet" href="tic.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        <div class="board"></div>
+        <div class="createPlayerContainer">
+            <button class= "createPlayer">Create Player</button>
+        </div>
+    </div>
+
+
+    <dialog id="playerDialog" >
+        <form>
+            <div class="Name">
+                <label for="name">Name:</label>
+                <input type="text" id="name" placeholder="Haroon" name="name">
+            </div>
+            <div class="Marker">
+                <label for="marker">Marker:</label>
+                <input type="text" id="marker" placeholder="H" name="playerMarker">
+            </div>
+            <button type= "submit" id="submit">Submit</button>
+        </form>
+        
+    </dialog> 
+    
+
     
 </body>
 </html>

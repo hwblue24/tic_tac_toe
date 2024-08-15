@@ -13,12 +13,17 @@ body {
     display:grid; 
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 
-        'ui board message'
+        'ui board ui2'
     ;
         
         
 }
 
+.createPlayerContainer { 
+    grid-area:ui2;
+    justify-self:center;
+    
+}
 
 .board { 
     aspect-ratio: 1/1;

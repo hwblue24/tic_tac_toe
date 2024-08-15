@@ -43,8 +43,7 @@ function createPlayer (initialName, initialMarker) {
 const domLogic = (function () { 
     const board = TicTacToe.getBoard();
     const container = document.querySelector(".board");
-    
-    function rendBoard () {
+    (function rendBoard () {
         board.forEach((row) => {
             const rowDiv = document.createElement("div");
             rowDiv.classList.add('rows')
@@ -56,9 +55,23 @@ const domLogic = (function () {
                 rowDiv.appendChild(cellDiv);
             });
         });
-    }
+    })();
 
-    return {rendBoard}
+    //selects create player and dialog form and has it pop up
+    const createPlayerBtn = document.querySelector(".createPlayer");
+    const playerDialog = document.querySelector("#playerDialog");
+    createPlayerBtn.addEventListener("click", () => {
+         playerDialog.showModal();
+    })
+
+    const submit = document.querySelector("#submit"); 
+    submit.addEventListener("click", (event) => {
+        let initialName = document.querySelector("#name").value;
+        let initialMarker = document.querySelector("#marker").value;
+        createPlayer(initialName, initialMarker);
+        event.preventDefault();
+        playerDialog.close();
+    });
 
 
 })();
@@ -67,8 +80,8 @@ const domLogic = (function () {
 //IIFE handles gameflow 
 const gameController = (function () {
 
-    let player1= createPlayer('haroon','H');
-    let player2 = createPlayer('dureti','D')
+    let player1= TicTacToe.getPlayerList()[0];
+    let player2 = TicTacToe.getPlayerList()[1];
     let round = 1; 
     
 
