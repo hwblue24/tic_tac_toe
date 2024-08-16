@@ -10,8 +10,11 @@ const TicTacToe = (function () {
     const addPlayer = (name, marker) => {
         if(playerList.length<2) {
             playerList.push({name, marker});
-            domLogic.createScoreBoard();
-
+            domLogic.createScoreBoard(name, marker);
+            if(playerList.length === 2 ) { 
+                gameController.startGame();
+            }
+          
         }else { 
             const dialogFullGame = document.querySelector(".dialogFullGame");
             dialogFullGame.showModal();
@@ -88,26 +91,19 @@ const domLogic = (function () {
     })();
 
 
-    function createScoreBoard () {
-        if (TicTacToe.getPlayerList().length === 2) {
-            let player1= TicTacToe.getPlayerList()[0].name;
-            let player2 = TicTacToe.getPlayerList()[1].name;
-            let p1ayer1Marker = TicTacToe.getPlayerList()[0].marker;
-            let player2Marker = TicTacToe.getPlayerList()[1].marker;
+    function createScoreBoard (name, marker) {
 
-            const scoreBoard = document.querySelector(".scoreBoard");
+        const name1 = name;
+        const marker1 = marker; 
 
-            const player1name = document.createElement("div");
-            player1name.classList.add('player1');
-            player1name.textContent = `${player1} marker:${p1ayer1Marker}`;
+        const scoreBoard = document.querySelector(".scoreBoard");
+        
+        const playerDiv = document.createElement("div");
+        playerDiv.classList.add("player");
+        playerDiv.textContent = `${name1} marker:${marker1}`
 
-            const player2name = document.createElement("div");
-            player2name.classList.add('player2');
-            player2name.textContent = `${player2} marker:${player2Marker}`;
-
-            scoreBoard.appendChild(player1name);
-            scoreBoard.appendChild(player2name);
-        }
+        scoreBoard.appendChild(playerDiv);
+        
 
     }
 
@@ -121,23 +117,30 @@ const domLogic = (function () {
 
 
 //IIFE handles gameflow 
-const gameController = (function () {
+const gameController = (function() {
 
-    let player1= TicTacToe.getPlayerList()[0];
-    let player2 = TicTacToe.getPlayerList()[1];
     let round = 1; 
     
+    function startGame () {
+        let player1obj= TicTacToe.getPlayerList()[0];
+        let player2obj = TicTacToe.getPlayerList()[1];
 
-    function gameRound () { 
+        if(TicTacToe.getPlayerList().length===2) { 
+            gameRound(player1obj,player2obj);
+        }
+
+    }
+
+    function gameRound (player1obj,player2obj) { 
         if(round%2 ==1 ) { 
-            console.log(`${player1.getName()}'s turn`)
+            console.log(`${player1obj.name}'s turn`)
             
-            let marker = player1.getMarker();
+            let marker = player1obj.marker;
             playerInputs (marker);
             
         }else { 
-            console.log( `${player2.getName()}'s turn`)
-            let marker = player2.getMarker(); 
+            console.log( `${player2obj.name}'s turn`)
+            let marker = player2obj.marker; 
             playerInputs (marker);
         
 
@@ -227,8 +230,8 @@ const gameController = (function () {
     }
 
  
-    return { gameRound }
+    return {startGame };
 
 
-})()
+})();
 
