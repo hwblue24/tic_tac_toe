@@ -11,7 +11,7 @@ const TicTacToe = (function () {
         if(playerList.length<2) {
             playerList.push({name, marker});
             domLogic.createScoreBoard(name, marker);
-            if(playerList.length === 2 ) { 
+            if (playerList.length === 2 ) { 
                 gameController.startGame();
             }
           
@@ -149,13 +149,24 @@ const gameController = (function() {
 
     function playerInputs (marker) { 
         console.log( `Pick an array and its index to mark`)
-        let array = prompt('choose an array'); 
-        let index = prompt('choose an index');
-        gameBoardLimiter (array, index, marker);
+        const boardContainer = document.querySelector(".board")
+        boardContainer.addEventListener("click", (event) => {
+            const target = event.target; 
+            if(target.classList.value === "cells") {
+                target.textContent = marker; 
+                
+                
+            }
+
+
+        })
+        //let array = 0;
+        //let index = 0;
+        //gameBoardLimiter (array, index, marker);
         
     }
 
-    function gameBoardLimiter (array, index, marker) { 
+    /*function gameBoardLimiter (array, index, marker) { 
         if (array>=0 && array<=2 && index>=0 && index<=2) { 
             insertMarker(array,index, marker); 
         }else { 
@@ -227,7 +238,7 @@ const gameController = (function() {
         }
 
 
-    }
+    }*/
 
  
     return {startGame };
