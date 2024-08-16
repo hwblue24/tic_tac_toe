@@ -6,9 +6,21 @@ const TicTacToe = (function () {
     const getPlayerList = () => playerList; 
     const getBoard = () => gameBoard; 
     
-    
+    //takes player objects adds to list, max 2
     const addPlayer = (name, marker) => {
-        playerList.push({name, marker});
+        if(playerList.length<2) {
+            playerList.push({name, marker});
+            domLogic.createScoreBoard();
+
+        }else { 
+            const dialogFullGame = document.querySelector(".dialogFullGame");
+            dialogFullGame.showModal();
+            const exitFullMessage = document.querySelector(".dialogFullGame button"); 
+            exitFullMessage.addEventListener("click", () => {
+                dialogFullGame.close();
+            })
+
+        }
     };
     
     
@@ -17,7 +29,7 @@ const TicTacToe = (function () {
 })();  
 
 
-
+//receives name, marker and initializes addPlayer which adds it to a list
 function createPlayer (initialName, initialMarker) {
         
 
@@ -31,7 +43,7 @@ function createPlayer (initialName, initialMarker) {
     const getMarker = () => marker; 
     
 
-    return { getName, getMarker, };
+    return { getName, getMarker };
     
 
 }
@@ -57,23 +69,54 @@ const domLogic = (function () {
         });
     })();
 
-    //selects create player and dialog form and has it pop up
-    const createPlayerBtn = document.querySelector(".createPlayer");
-    const playerDialog = document.querySelector("#playerDialog");
-    createPlayerBtn.addEventListener("click", () => {
-         playerDialog.showModal();
-    })
+    (function createPlayerBtn() {
+        //selects create player btn and dialog form and has it pop up, input sent to factory createPlayer
+        const createPlayerBtn = document.querySelector(".createPlayer");
+        const playerDialog = document.querySelector("#playerDialog");
+        createPlayerBtn.addEventListener("click", () => {
+            playerDialog.showModal();
+        })
 
-    const submit = document.querySelector("#submit"); 
-    submit.addEventListener("click", (event) => {
-        let initialName = document.querySelector("#name").value;
-        let initialMarker = document.querySelector("#marker").value;
-        createPlayer(initialName, initialMarker);
-        event.preventDefault();
-        playerDialog.close();
-    });
+        const submit = document.querySelector("#submit"); 
+        submit.addEventListener("click", (event) => {
+            let initialName = document.querySelector("#name").value;
+            let initialMarker = document.querySelector("#marker").value;
+            createPlayer(initialName, initialMarker);
+            event.preventDefault();
+            playerDialog.close();
+        });
+    })();
 
 
+    function createScoreBoard () {
+        if (TicTacToe.getPlayerList().length === 2) {
+            let player1= TicTacToe.getPlayerList()[0].name;
+            let player2 = TicTacToe.getPlayerList()[1].name;
+            let p1ayer1Marker = TicTacToe.getPlayerList()[0].marker;
+            let player2Marker = TicTacToe.getPlayerList()[1].marker;
+
+            const scoreBoard = document.querySelector(".scoreBoard");
+
+            const player1name = document.createElement("div");
+            player1name.classList.add('player1');
+            player1name.textContent = `${player1} marker:${p1ayer1Marker}`;
+
+            const player2name = document.createElement("div");
+            player2name.classList.add('player2');
+            player2name.textContent = `${player2} marker:${player2Marker}`;
+
+            scoreBoard.appendChild(player1name);
+            scoreBoard.appendChild(player2name);
+        }
+
+    }
+
+    return{createScoreBoard}
+
+    
+    
+    
+  
 })();
 
 
