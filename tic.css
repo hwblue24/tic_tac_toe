@@ -90,3 +90,10 @@ body {
     border-left:solid blue;
     border-right: solid blue;
 }
+
+.scoreBoard { 
+    grid-area: ui;
+    height:100px; 
+    width:100px;
+    border: solid black;
+}

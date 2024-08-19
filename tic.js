@@ -147,98 +147,100 @@ const gameController = (function() {
         }
     }
 
+    //When returning from trip, playerInputs changed from prompts to click event, need to still use array to track win conditions etc. 
+
     function playerInputs (marker) { 
         console.log( `Pick an array and its index to mark`)
         const boardContainer = document.querySelector(".board")
         boardContainer.addEventListener("click", (event) => {
             const target = event.target; 
             if(target.classList.value === "cells") {
-                target.textContent = marker; 
-                
-                
+                target.textContent = marker;
+                round++
+                console.log(round)
+               
             }
-
+            startGame();
 
         })
-        //let array = 0;
-        //let index = 0;
-        //gameBoardLimiter (array, index, marker);
-        
-    }
-
-    /*function gameBoardLimiter (array, index, marker) { 
-        if (array>=0 && array<=2 && index>=0 && index<=2) { 
-            insertMarker(array,index, marker); 
-        }else { 
-            console.log("Pick a number between 0 and 2")
-            gameRound();
-        }
-    }
-
-
-    function insertMarker (array,index,marker) {
-        if(TicTacToe.getBoard()[array][index] === player1.getMarker() || TicTacToe.getBoard()[array][index] === player2.getMarker()) { 
-            console.log( `Spot occupied`)
-            gameRound();
-        }else { 
-            TicTacToe.getBoard()[array].splice(index,1, marker );
-            winConditionAcross(array, marker);
-
-            console.log(TicTacToe.getBoard());
-            round +=1; 
-            console.log(round);
-            tieCondition(round);
-           
-
-        }
 
     }
+
+
+    // function gameBoardLimiter (array, index, marker) { 
+    //     if (array>=0 && array<=2 && index>=0 && index<=2) { 
+    //         insertMarker(array,index, marker); 
+    //     }else { 
+    //         console.log("Pick a number between 0 and 2")
+    //         gameRound();
+    //     }
+    // }
 
    
 
-    function winConditionAcross (array, marker) { 
-        let rowMarkerCheck = TicTacToe.getBoard()[array].every((position)=> position === marker); 
-        if (rowMarkerCheck) { 
+    // function insertMarker (array,index,marker) {
+    //     if(TicTacToe.getBoard()[array][index] === player1.getMarker() || TicTacToe.getBoard()[array][index] === player2.getMarker()) { 
+    //         console.log( `Spot occupied`)
+    //         gameRound();
+    //     }else { 
+    //         TicTacToe.getBoard()[array].splice(index,1, marker );
+    //         winConditionAcross(array, marker);
+
+    //         console.log(TicTacToe.getBoard());
+    //         round +=1; 
+    //         console.log(round);
+    //         tieCondition(round);
+           
+
+    //     }
+
+    // }
+
+   
+
+    // function winConditionAcross (array, marker) { 
+    //     let rowMarkerCheck = TicTacToe.getBoard()[array].every((position)=> position === marker); 
+    //     if (rowMarkerCheck) { 
             
-            console.log("You win with three across")
-        } else {
-            winConditionColumn(marker);
-        }
-    }
+    //         console.log("You win with three across")
+    //     } else {
+    //         winConditionColumn(marker);
+    //     }
+    // }
 
-    function winConditionColumn (marker) {
-        let flatArray = TicTacToe.getBoard().flat();
-        let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
-        let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
-        let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
-        if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
+    // function winConditionColumn (marker) {
+    //     let flatArray = TicTacToe.getBoard().flat();
+    //     let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
+    //     let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
+    //     let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
+    //     if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
             
-            console.log("You win with 3 vertical")
-        } else { 
-            winConditionDiagonal(marker);
-        }
+    //         console.log("You win with 3 vertical")
+    //     } else { 
+    //         winConditionDiagonal(marker);
+    //     }
 
-    }
+    // }
 
-    function winConditionDiagonal (marker) { 
-        let flatArray = TicTacToe.getBoard().flat();
-        let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
-        let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
-        if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
+    // function winConditionDiagonal (marker) { 
+    //     let flatArray = TicTacToe.getBoard().flat();
+    //     let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
+    //     let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
+    //     if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
             
-            console.log('You win with 3 diagonal')
-        } 
+    //         console.log('You win with 3 diagonal')
+    //     } 
 
-    }
+    // }
 
-    function tieCondition (round) {
-        if(round === 10) { 
-            console.log ("Tie game")
+    // function tieCondition (round) {
+    //     if(round === 10) { 
+    //         console.log ("Tie game")
 
-        }
+    //     }
 
 
-    }*/
+    // }
 
  
     return {startGame };
