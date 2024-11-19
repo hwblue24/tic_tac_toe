@@ -32,29 +32,7 @@ const TicTacToe = (function () {
 })();  
 
 
-//receives name, marker and initializes addPlayer which adds it to a list
-function createPlayer (initialName, initialMarker) {
-        
-
-    let name = initialName; 
-    let marker = initialMarker 
-
-    TicTacToe.addPlayer(name, marker);
-  
-    
-    const getName = () => name;
-    const getMarker = () => marker; 
-    
-
-    return { getName, getMarker };
-    
-
-}
-
-
-
-
-//IIFE handle DOM logic 
+//IIFE handles creating board with rows and columns and handles player creation 
 const domLogic = (function () { 
     const board = TicTacToe.getBoard();
     const container = document.querySelector(".board");
@@ -75,7 +53,6 @@ const domLogic = (function () {
     (function createPlayerBtn() {
         //selects create player btn and dialog form and has it pop up, input sent to factory createPlayer
         const createPlayerBtn = document.querySelector(".createPlayer");
-        const playerDialog = document.querySelector("#playerDialog");
         createPlayerBtn.addEventListener("click", () => {
             playerDialog.showModal();
         })
@@ -89,6 +66,20 @@ const domLogic = (function () {
             playerDialog.close();
         });
     })();
+
+
+
+//receives name, marker and initializes addPlayer which adds it to a list
+function createPlayer (initialName, initialMarker) {
+
+    let name = initialName; 
+    let marker = initialMarker 
+
+    TicTacToe.addPlayer(name, marker);
+    
+
+}
+
 
 
     function createScoreBoard (name, marker) {
@@ -121,50 +112,58 @@ const gameController = (function() {
 
     let round = 1; 
     
+    
+    const getRound = () => round; 
+
     function startGame () {
         let player1obj= TicTacToe.getPlayerList()[0];
         let player2obj = TicTacToe.getPlayerList()[1];
 
-        if(TicTacToe.getPlayerList().length===2) { 
-            gameRound(player1obj,player2obj);
-        }
+        const boardContainer = document.querySelector(".board")
 
-    }
+        boardContainer.addEventListener("click", (event) => {
+            const target = event.target; 
+            if(target.classList.value === "cells" && round % 2 === 1 ) {
+                target.textContent = player1obj.marker;
+                round++
+                console.log(round)
 
-    function gameRound (player1obj,player2obj) { 
-        if(round%2 ==1 ) { 
-            console.log(`${player1obj.name}'s turn`)
-            
-            let marker = player1obj.marker;
-            playerInputs (marker);
-            
-        }else { 
-            console.log( `${player2obj.name}'s turn`)
-            let marker = player2obj.marker; 
-            playerInputs (marker);
+            }else { 
+                target.textContent = player2obj.marker;
+                round++
+                console.log(round)
+
+            }
+                
+               
+        })
+
         
-
-        }
+        
     }
 
     //When returning from trip, playerInputs changed from prompts to click event, need to still use array to track win conditions etc. 
 
-    function playerInputs (marker) { 
-        console.log( `Pick an array and its index to mark`)
-        const boardContainer = document.querySelector(".board")
-        boardContainer.addEventListener("click", (event) => {
-            const target = event.target; 
-            if(target.classList.value === "cells") {
-                target.textContent = marker;
-                round++
-                console.log(round)
+    
+
+    // function playerInputs (marker) { 
+    //     const boardContainer = document.querySelector(".board")
+
+    //     boardContainer.addEventListener("click", (event) => {
+    //         const target = event.target; 
+    //         if(target.classList.value === "cells" && round % 2 === 1 ) {
+    //             target.textContent = marker;
+    //             round++
+    //             console.log(round)
                
-            }
-            startGame();
+    //         }
+            
 
-        })
+    //     })
 
-    }
+    // } 
+
+    // playerInputs();
 
 
     // function gameBoardLimiter (array, index, marker) { 
@@ -243,7 +242,7 @@ const gameController = (function() {
     // }
 
  
-    return {startGame };
+    return {startGame, getRound };
 
 
 })();
