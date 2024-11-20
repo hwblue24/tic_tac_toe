@@ -37,14 +37,14 @@ const domLogic = (function () {
     const board = TicTacToe.getBoard();
     const container = document.querySelector(".board");
     (function rendBoard () {
-        board.forEach((row) => {
+        board.forEach((row, index) => {
             const rowDiv = document.createElement("div");
-            rowDiv.classList.add('rows')
+            rowDiv.classList.add(`rows`,`row-${index+1}`)
             container.appendChild(rowDiv);
 
-            row.forEach(() => {
+            row.forEach((_, index) => {
                 const cellDiv = document.createElement("div");
-                cellDiv.classList.add('cells')
+                cellDiv.classList.add(`cells`, `cell-${index+1}`)
                 rowDiv.appendChild(cellDiv);
             });
         });
@@ -80,8 +80,6 @@ function createPlayer (initialName, initialMarker) {
 
 }
 
-
-
     function createScoreBoard (name, marker) {
 
         const name1 = name;
@@ -100,9 +98,6 @@ function createPlayer (initialName, initialMarker) {
 
     return{createScoreBoard}
 
-    
-    
-    
   
 })();
 
@@ -123,13 +118,15 @@ const gameController = (function() {
 
         boardContainer.addEventListener("click", (event) => {
             const target = event.target; 
-            if(target.classList.value === "cells" && round % 2 === 1 ) {
+            if( round % 2 === 1 && target.textContent === "" ) {
                 target.textContent = player1obj.marker;
                 round++
+                trackInput();
                 console.log(round)
 
-            }else { 
+            }else if ( round % 2 === 0 && target.textContent === "") { 
                 target.textContent = player2obj.marker;
+                trackInput();
                 round++
                 console.log(round)
 
@@ -138,32 +135,17 @@ const gameController = (function() {
                
         })
 
+
+        function trackInput () { 
+
+        }
+
         
         
     }
 
     //When returning from trip, playerInputs changed from prompts to click event, need to still use array to track win conditions etc. 
 
-    
-
-    // function playerInputs (marker) { 
-    //     const boardContainer = document.querySelector(".board")
-
-    //     boardContainer.addEventListener("click", (event) => {
-    //         const target = event.target; 
-    //         if(target.classList.value === "cells" && round % 2 === 1 ) {
-    //             target.textContent = marker;
-    //             round++
-    //             console.log(round)
-               
-    //         }
-            
-
-    //     })
-
-    // } 
-
-    // playerInputs();
 
 
     // function gameBoardLimiter (array, index, marker) { 
