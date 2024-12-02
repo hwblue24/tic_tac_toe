@@ -39,12 +39,12 @@ const domLogic = (function () {
     (function rendBoard () {
         board.forEach((row, index) => {
             const rowDiv = document.createElement("div");
-            rowDiv.classList.add(`rows`,`row-${index+1}`)
+            rowDiv.classList.add(`rows`,`${index}`)
             container.appendChild(rowDiv);
 
             row.forEach((_, index) => {
                 const cellDiv = document.createElement("div");
-                cellDiv.classList.add(`cells`, `cell-${index+1}`)
+                cellDiv.classList.add(`cells`, `${index}`)
                 rowDiv.appendChild(cellDiv);
             });
         });
@@ -140,6 +140,7 @@ const gameController = (function() {
             board = TicTacToe.getBoard();
             row = target.parentElement.classList
             column = target.classList
+            
             console.log(row[1]);
             console.log(column[1]);
     
