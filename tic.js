@@ -120,13 +120,15 @@ const gameController = (function() {
             const target = event.target; 
             if( round % 2 === 1 && target.textContent === "" ) {
                 target.textContent = player1obj.marker;
-                trackInput(target);
+                marker = player1obj.marker
+                trackInput(target, marker);
                 round++
                 console.log(round)
 
             }else if ( round % 2 === 0 && target.textContent === "") { 
                 target.textContent = player2obj.marker;
-                trackInput(target);
+                marker = player2obj.marker 
+                trackInput(target, marker);
                 round++
                 console.log(round)
 
@@ -136,13 +138,14 @@ const gameController = (function() {
         })
 
     //figured out how to get row and cell number based on click event. Now if I could input that into splice method I should be fine
-        function trackInput (target) { 
+        function trackInput (target, marker) { 
             board = TicTacToe.getBoard();
             row = target.parentElement.classList
             column = target.classList
-            
-            console.log(row[1]);
-            console.log(column[1]);
+            r = row[1]; 
+            c = column[1]
+            board[r][c] = marker
+            console.log(board);
     
     
         }
