@@ -25,7 +25,7 @@ const TicTacToe = (function () {
 
         }
     };
-    
+
     
     return {getBoard, getPlayerList, addPlayer}
 
@@ -120,13 +120,13 @@ const gameController = (function() {
             const target = event.target; 
             if( round % 2 === 1 && target.textContent === "" ) {
                 target.textContent = player1obj.marker;
+                trackInput(target);
                 round++
-                trackInput();
                 console.log(round)
 
             }else if ( round % 2 === 0 && target.textContent === "") { 
                 target.textContent = player2obj.marker;
-                trackInput();
+                trackInput(target);
                 round++
                 console.log(round)
 
@@ -135,18 +135,20 @@ const gameController = (function() {
                
         })
 
-
-        function trackInput () { 
-
+    //figured out how to get row and cell number based on click event. Now if I could input that into splice method I should be fine
+        function trackInput (target) { 
+            board = TicTacToe.getBoard();
+            row = target.parentElement.classList
+            column = target.classList
+            console.log(row[1]);
+            console.log(column[1]);
+    
+    
         }
 
-        
+    
         
     }
-
-    //When returning from trip, playerInputs changed from prompts to click event, need to still use array to track win conditions etc. 
-
-
 
     // function gameBoardLimiter (array, index, marker) { 
     //     if (array>=0 && array<=2 && index>=0 && index<=2) { 
