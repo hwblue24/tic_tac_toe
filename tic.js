@@ -137,7 +137,6 @@ const gameController = (function() {
                
         })
 
-    //figured out how to get row and cell number based on click event. Now if I could input that into splice method I should be fine
         function trackInput (target, marker) { 
             board = TicTacToe.getBoard();
             row = target.parentElement.classList
@@ -145,89 +144,54 @@ const gameController = (function() {
             r = row[1]; 
             c = column[1]
             board[r][c] = marker
+            winConditionAcross(r,marker); 
             console.log(board);
-    
     
         }
 
-    
-        
     }
 
-    // function gameBoardLimiter (array, index, marker) { 
-    //     if (array>=0 && array<=2 && index>=0 && index<=2) { 
-    //         insertMarker(array,index, marker); 
-    //     }else { 
-    //         console.log("Pick a number between 0 and 2")
-    //         gameRound();
-    //     }
-    // }
 
-   
+        function winConditionAcross (r, marker) { 
+            let rowMarkerCheck = TicTacToe.getBoard()[r].every((position)=> position === marker); 
+            if (rowMarkerCheck) {  
+                console.log("You win with three across")
+            } else {
+                winConditionColumn(marker);
+            }
+    }
 
-    // function insertMarker (array,index,marker) {
-    //     if(TicTacToe.getBoard()[array][index] === player1.getMarker() || TicTacToe.getBoard()[array][index] === player2.getMarker()) { 
-    //         console.log( `Spot occupied`)
-    //         gameRound();
-    //     }else { 
-    //         TicTacToe.getBoard()[array].splice(index,1, marker );
-    //         winConditionAcross(array, marker);
+        function winConditionColumn (marker) {
+            let flatArray = TicTacToe.getBoard().flat();
+            let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
+            let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
+            let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
+            if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
+                console.log("You win with 3 vertical")
+            } else { 
+                winConditionDiagonal(marker);
+            }
 
-    //         console.log(TicTacToe.getBoard());
-    //         round +=1; 
-    //         console.log(round);
-    //         tieCondition(round);
-           
+        }
 
-    //     }
+        function winConditionDiagonal (marker) { 
+            let flatArray = TicTacToe.getBoard().flat();
+            let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
+            let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
+            if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
+                console.log('You win with 3 diagonal')
+            } 
 
-    // }
+        }
 
-   
+        function tieCondition (round) {
+            if(round === 10) { 
+                console.log ("Tie game")
 
-    // function winConditionAcross (array, marker) { 
-    //     let rowMarkerCheck = TicTacToe.getBoard()[array].every((position)=> position === marker); 
-    //     if (rowMarkerCheck) { 
-            
-    //         console.log("You win with three across")
-    //     } else {
-    //         winConditionColumn(marker);
-    //     }
-    // }
-
-    // function winConditionColumn (marker) {
-    //     let flatArray = TicTacToe.getBoard().flat();
-    //     let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
-    //     let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
-    //     let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
-    //     if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
-            
-    //         console.log("You win with 3 vertical")
-    //     } else { 
-    //         winConditionDiagonal(marker);
-    //     }
-
-    // }
-
-    // function winConditionDiagonal (marker) { 
-    //     let flatArray = TicTacToe.getBoard().flat();
-    //     let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
-    //     let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
-    //     if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
-            
-    //         console.log('You win with 3 diagonal')
-    //     } 
-
-    // }
-
-    // function tieCondition (round) {
-    //     if(round === 10) { 
-    //         console.log ("Tie game")
-
-    //     }
+            }
 
 
-    // }
+        }
 
  
     return {startGame, getRound };
