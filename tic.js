@@ -122,17 +122,17 @@ const gameController = (function() {
                 target.textContent = player1obj.marker;
                 marker = player1obj.marker
                 trackInput(target, marker);
-                round++
+                //round++
                 console.log(round)
 
             }else if ( round % 2 === 0 && target.textContent === "") { 
                 target.textContent = player2obj.marker;
                 marker = player2obj.marker 
                 trackInput(target, marker);
-                round++
+                //round++
                 console.log(round)
 
-            }
+            } 
                 
                
         })
@@ -180,18 +180,21 @@ const gameController = (function() {
             let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
             if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
                 console.log('You win with 3 diagonal')
-            } 
-
-        }
-
-        function tieCondition (round) {
-            if(round === 10) { 
-                console.log ("Tie game")
-
+            } else {
+                round++
+                tieGame();
             }
 
-
         }
+
+        function tieGame() {
+            let round = getRound(); 
+            if (round === 10) { 
+                console.log("Tie Game")
+            } 
+        }
+
+        
 
  
     return {startGame, getRound };
