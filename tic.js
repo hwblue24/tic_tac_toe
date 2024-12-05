@@ -121,30 +121,31 @@ const gameController = (function() {
             if( round % 2 === 1 && target.textContent === "" ) {
                 target.textContent = player1obj.marker;
                 marker = player1obj.marker
-                trackInput(target, marker);
-                //round++
-                console.log(round)
+                player = player1obj.name
+                trackInput(target, marker, player);
+                
+            
 
             }else if ( round % 2 === 0 && target.textContent === "") { 
                 target.textContent = player2obj.marker;
                 marker = player2obj.marker 
-                trackInput(target, marker);
-                //round++
-                console.log(round)
+                player = player1obj.name
+                trackInput(target, marker, player);
+                
 
             } 
                 
                
         })
 
-        function trackInput (target, marker) { 
+        function trackInput (target, marker, player) { 
             board = TicTacToe.getBoard();
             row = target.parentElement.classList
             column = target.classList
             r = row[1]; 
             c = column[1]
             board[r][c] = marker
-            winConditionAcross(r,marker); 
+            winConditionAcross(r,marker, player); 
             console.log(board);
     
         }
@@ -152,34 +153,46 @@ const gameController = (function() {
     }
 
 
-        function winConditionAcross (r, marker) { 
+        function winConditionAcross (r, marker, player) { 
             let rowMarkerCheck = TicTacToe.getBoard()[r].every((position)=> position === marker); 
             if (rowMarkerCheck) {  
-                console.log("You win with three across")
+                const winAcross = document.querySelector(".winAcross")
+                const winAcrossDiv = document.createElement("div"); 
+                winAcrossDiv.textContent = `Congrats! ${player} you won with three across`
+                winAcross.appendChild(winAcrossDiv);
+                winAcross.showModal();
             } else {
-                winConditionColumn(marker);
+                winConditionColumn(marker, player);
             }
     }
 
-        function winConditionColumn (marker) {
+        function winConditionColumn (marker, player) {
             let flatArray = TicTacToe.getBoard().flat();
             let columnOne = [flatArray[0],flatArray[3],flatArray[6]]
             let columnTwo = [flatArray[1],flatArray[4],flatArray[7]]
             let columnThree = [flatArray[2],flatArray[5],flatArray[8]]
             if (columnOne.every((position)=> position === marker)|| columnTwo.every(position => position === marker) || columnThree.every(position => position === marker)) {
-                console.log("You win with 3 vertical")
+                const winColumn = document.querySelector(".winColumn")
+                const winColumnDiv = document.createElement("div"); 
+                winColumnDiv.textContent = `Congrats! ${player} you won with three down`
+                winColumn.appendChild(winColumnDiv);
+                winColumn.showModal();
             } else { 
-                winConditionDiagonal(marker);
+                winConditionDiagonal(marker, player);
             }
 
         }
 
-        function winConditionDiagonal (marker) { 
+        function winConditionDiagonal (marker, player) { 
             let flatArray = TicTacToe.getBoard().flat();
             let diagLeftToRight = [flatArray[0], flatArray[4], flatArray[8]]
             let diagRightToLeft = [flatArray[2], flatArray[4], flatArray[6]]
             if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
-                console.log('You win with 3 diagonal')
+                const winDiagonal = document.querySelector(".winDiagonal")
+                const winDiagonalDiv = document.createElement("div"); 
+                winDiagonalDiv.textContent = `${player} you won with three across`
+                winDiagonal.appendChild(winDiagonalDiv);
+                winDiagonal.showModal();
             } else {
                 round++
                 tieGame();
