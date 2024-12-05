@@ -190,7 +190,7 @@ const gameController = (function() {
             if (diagLeftToRight.every((position) => position === marker) || diagRightToLeft.every((position)=> position === marker)) {
                 const winDiagonal = document.querySelector(".winDiagonal")
                 const winDiagonalDiv = document.createElement("div"); 
-                winDiagonalDiv.textContent = `${player} you won with three across`
+                winDiagonalDiv.textContent = `${player} you won with three diagonal`
                 winDiagonal.appendChild(winDiagonalDiv);
                 winDiagonal.showModal();
             } else {
